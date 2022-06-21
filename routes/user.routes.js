@@ -3,7 +3,6 @@ const {hasRole} = require("../service/hasRole");
 
 module.exports = app => {
     const user = require("../controllers/user.controller")
-    const restaurant = require("../controllers/restaurant.controller");
 
     const router = require("express").Router();
 
