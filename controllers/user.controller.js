@@ -4,36 +4,12 @@ const jwt = require('jsonwebtoken')
 //const fs = require('fs')
 //const path = require('path')
 const bCrypt = require ('bcrypt')
+const tokenList = {}
+const privateKey = process.env.PRIVATE_KEY;
+const refreshKey = process.env.REFRESH_TOKEN;
+const tokenExpire = process.env.TOKENLIFE;
+const refreshTokenExpire = process.env.REFRESHTOKENLIFE;
 
-exports.login = async (req, res) => {
-
-    try {
-        const { mail, password } = req.body;
-
-        if (!mail || !password) {
-            res.status(400).json({ error: 'Mail or PWD not found' });
-            return
-        }
-
-        const user = await User.findOne({mail}).select('+password');
-
-        if (!user || !(await bCrypt.compare(password, user.password))) {
-            res.status(401).json({ error: 'Email ou mot de passe incorrect' });
-            return
-        }
-
-        //const privateKey = fs.readFileSync(path.join(__dirname,'../key.JWT'));
-        const privateKey = process.env.PRIVATE_KEY;
-
-        const token = jwt.sign({userID : user._id}, privateKey);
-
-        res.status(200).json({ token, user });
-
-    } catch (error) {
-        res.status(400).json({ error });
-    }
-
-};
 
 exports.register = async (req,res) => {
     try {
@@ -55,9 +31,84 @@ exports.register = async (req,res) => {
         res.status(201).json({ message: 'User save'});
 
     } catch (error) {
-        res.status(500).json({ error: "FAIL" });
+        res.status(500).json({ error: error });
     }
-}
+};
+
+exports.login = async (req, res) => {
+
+    try {
+        const { mail, password } = req.body;
+
+        if (!mail || !password) {
+            res.status(400).json({ error: 'Mail or PWD not found' });
+            return
+        }
+
+         const user = await User.findOne({mail}).select('+password');
+
+        if (!user || !(await bCrypt.compare(password, user.password))) {
+            res.status(401).json({ error: 'Email ou mot de passe incorrect' });
+            return
+        }
+
+       const token = jwt.sign({userId: user._id}, privateKey, {expiresIn: tokenExpire});
+       const refreshTokenKey = jwt.sign({userId: user._id}, refreshKey, {expiresIn: refreshTokenExpire});
+        const response = {
+            "status": "Logged in",
+            "token": token,
+            "refreshTokenKey": refreshTokenKey,
+            "user": user,
+        }
+        tokenList[refreshTokenKey] = response
+        res.status(200).json({ response });
+
+    } catch (error) {
+        res.status(400).json({ error: error });
+    }
+
+};
+
+exports.refreshToken = async (req, res) => {
+
+  try {
+      const postData = req.body
+     // const {mail} = req.body
+    // const user = await User.findOne({mail}).select('+password');
+
+      if((postData.refreshTokenKey) && (postData.refreshTokenKey in tokenList)){
+          const user = {
+              "mail": postData.mail,
+              "password": postData.password
+          }
+          const token = jwt.sign({userID : user._id}, privateKey, {expiresIn: tokenExpire });
+          tokenList[postData.refreshToken].token = token
+          res.status(200).json(token)
+       }
+  } catch (error) {
+      res.status(500).json({ error: "FAIL" });
+  }
+
+};
+
+exports.checkToken = async (req,res, next)=> {
+    try {
+        const token =  req.body.token || req.query.token || req.header['x-access_token']
+
+        if (token){
+            jwt.verify(token, privateKey, function (err,decoded){
+                if(err){
+                    return res.status(401).json({"error": true, "message": 'Unauthorized access.'});
+                }
+                req.decoded = decoded;
+                next();
+            })
+        }
+    } catch(error){
+        res.status(403).json({ error: "No Token probided" });
+    }
+
+};
 
 exports.profile = async (req,res) => {
     try{

@@ -18,6 +18,10 @@ module.exports = app => {
 
     router.delete('/:id',[isAuthenticated, hasRole(Role.ADMIN)], user.delete)
 
+    router.post('/refreshToken', user.refreshToken)
+
+    router.use('/tokenchecker', user.checkToken)
+
     app.use('/api/user', router)
 }
 
