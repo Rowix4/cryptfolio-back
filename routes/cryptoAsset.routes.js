@@ -13,3 +13,8 @@ module.exports = app => {
 
     app.use('/api/cryptoAsset', router)
 }
+
+class Role {
+    static ADMIN = 'ROLE_ADMIN';
+    static USER = 'ROLE_USER';
+  }

@@ -2,7 +2,7 @@ const {isAuthenticated} = require("../service/isAuthenticate");
 const {hasRole} = require("../service/hasRole");
 
 module.exports = app => {
-    const protfolio = require("../controllers/portfolio.controller")
+    const portfolio = require("../controllers/portfolio.controller")
     const router = require("express").Router();
 
     router.post("/", [isAuthenticated, hasRole(Role.USER)], portfolio.add);
@@ -13,3 +13,8 @@ module.exports = app => {
 
     app.use('/api/portfolio', router)
 }
+
+class Role {
+    static ADMIN = 'ROLE_ADMIN';
+    static USER = 'ROLE_USER';
+  }
