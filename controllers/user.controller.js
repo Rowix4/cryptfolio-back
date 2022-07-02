@@ -1,28 +1,25 @@
 const db = require("../models");
 const User = db.user;
 const jwt = require('jsonwebtoken')
-//const fs = require('fs')
-//const path = require('path')
 const bCrypt = require ('bcrypt')
 
 exports.login = async (req, res) => {
 
     try {
-        const { mail, password } = req.body;
+        const { mail, password } = req.query;
 
         if (!mail || !password) {
-            res.status(400).json({ error: 'Mail or PWD not found' });
+            res.status(400).json({ error: 'Mail or password not found' });
             return
         }
 
         const user = await User.findOne({mail}).select('+password');
 
         if (!user || !(await bCrypt.compare(password, user.password))) {
-            res.status(401).json({ error: 'Email ou mot de passe incorrect' });
+            res.status(401).json({ error: 'Wrong email or password' });
             return
         }
 
-        //const privateKey = fs.readFileSync(path.join(__dirname,'../key.JWT'));
         const privateKey = process.env.PRIVATE_KEY;
 
         const token = jwt.sign({userID : user._id}, privateKey);
@@ -52,7 +49,7 @@ exports.register = async (req,res) => {
         });
 
         await user.save()
-        res.status(201).json({ message: 'User save'});
+        res.status(201).json({ message: 'User create'});
 
     } catch (error) {
         res.status(500).json({ error: "FAIL" });
@@ -112,30 +109,4 @@ exports.update = async (req, res) => {
     }
 }
 
-exports.history = async (req, res) => {
-    try {
-        const {user} = req;
-
-        user.history.forEach( (past, index) => {
-            if (past === req.params.id) {
-                user.history.splice(index, 1);
-                // TODO : check if getHistory is order by ID, and check for push an update with new order
-                console.log(user.history)
-                res.status(201).send();
-
-            }
-        });
-
-        const update = await User.updateOne({_id : user._id}, {
-            $push: {history :  req.params.id,  $position : 0 },
-            $inc: { __v: 1 },
-        });
-
-        res.status(200).send();
-
-    } catch (err) {
-        res.status(400).json({ error : "Cannot add history" });
-    }
-
-}
 

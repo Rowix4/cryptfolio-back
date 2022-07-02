@@ -45,8 +45,12 @@
           "required": true
         },
         "responses": {
-          "405": {
-            "description": "Invalid input",
+          "200": {
+            "description": "Success",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized, login required",
             "content": {}
           }
         },
@@ -63,11 +67,11 @@
         "tags": [
           "user"
         ],
-        "summary": "Register user",
+        "summary": "Register new user",
         "description": "",
         "operationId": "createUser",
         "requestBody": {
-          "description": "Created user object",
+          "description": "Created user",
           "content": {
             "application/json": {
               "schema": {
@@ -83,9 +87,11 @@
           "required": true
         },
         "responses": {
-          "default": {
-            "description": "successful operation",
-            "content": {}
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Mail already used "
           }
         },
         "x-codegen-request-body-name": "body"
@@ -100,8 +106,8 @@
         "operationId": "loginUser",
         "parameters": [
           {
-            "name": "email",
-            "in": "path",
+            "name": "mail",
+            "in": "query",
             "description": "The email for login",
             "required": true,
             "schema": {
@@ -110,7 +116,7 @@
           },
           {
             "name": "password",
-            "in": "path",
+            "in": "query",
             "description": "The password for login",
             "required": true,
             "schema": {
@@ -120,34 +126,10 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
-            "headers": {
-              "X-Rate-Limit": {
-                "description": "calls per hour allowed by the user",
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              },
-              "X-Expires-After": {
-                "description": "date in UTC when token expires",
-                "schema": {
-                  "type": "string",
-                  "format": "date-time"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
+            "description": "Success, return token and user object"
           },
-          "400": {
-            "description": "Invalid email/password supplied",
-            "content": {}
+          "401": {
+            "description": "Invalid email/password supplied"
           }
         }
       }
@@ -160,9 +142,8 @@
         "summary": "Logs out current logged in user session",
         "operationId": "logoutUser",
         "responses": {
-          "default": {
-            "description": "successful operation",
-            "content": {}
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -179,7 +160,7 @@
           "lastname": {
             "type": "string"
           },
-          "email": {
+          "mail": {
             "type": "string"
           },
           "password": {
