@@ -72,21 +72,16 @@ exports.login = async (req, res) => {
 exports.refreshToken = async (req, res) => {
 
   try {
-      const postData = req.body
-     // const {mail} = req.body
-    // const user = await User.findOne({mail}).select('+password');
+      const {refreshTokenKey, mail} = req.body
 
-      if((postData.refreshTokenKey) && (postData.refreshTokenKey in tokenList)){
-          const user = {
-              "mail": postData.mail,
-              "password": postData.password
-          }
+      if((refreshTokenKey) && (refreshTokenKey in tokenList)){
+          const user = await User.findOne({mail}).select('+password');
           const token = jwt.sign({userID : user._id}, privateKey, {expiresIn: tokenExpire });
-          tokenList[postData.refreshToken].token = token
+          tokenList[refreshTokenKey].token = token
           res.status(200).json(token)
        }
   } catch (error) {
-      res.status(500).json({ error: "FAIL" });
+      res.status(500).json({ error: "Refresh token failed" });
   }
 
 };
