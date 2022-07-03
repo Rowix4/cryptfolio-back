@@ -8,7 +8,7 @@ module.exports = mongoose => {
                 buyDate: { type: Date },
                 buyPrice: { type: Number },
                 buyValue: { type: Number },
-                portfolioId: { type: Number },
+                portfolioId: { type: String },
                 __v: { type: Number, select: false },
             },
             { timestamps: true }

@@ -4,7 +4,7 @@ module.exports = mongoose => {
         mongoose.Schema(
             {
                 name: { type: String },
-                userId: { type: Number },
+                userId: { type: String },
                 __v: { type: Number, select: false },
             },
             { timestamps: true }

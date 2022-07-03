@@ -373,9 +373,6 @@
         ],
         "type": "object",
         "properties": {
-          "userId": {
-            "type": "number"
-          },
           "name": {
             "type": "string"
           }
