@@ -1,8 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 if (process.env.NODE_ENV === undefined) {
 
@@ -38,10 +41,10 @@ app.get("/", (req, res) => {
 });
 
 require("./routes/user.routes")(app);
+require("./routes/portfolio.routes")(app);
+require("./routes/cryptoAsset.routes")(app);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-
-

@@ -18,6 +18,8 @@ module.exports = app => {
 
     router.delete('/:id',[isAuthenticated, hasRole(Role.ADMIN)], user.delete)
 
+    // TODO: LOGOUT
+
     app.use('/api/user', router)
 }
 
