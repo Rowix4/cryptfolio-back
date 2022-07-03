@@ -9,7 +9,11 @@ module.exports = app => {
     
     router.put('/:id', [isAuthenticated, hasRole(Role.USER)], portfolio.update)
 
-    router.get('/:id',[isAuthenticated, hasRole(Role.ADMIN)], portfolio.get)
+    router.get('/:id',[isAuthenticated, hasRole(Role.USER)], portfolio.get)
+
+    router.delete('/:id',[isAuthenticated, hasRole(Role.USER)], portfolio.delete)
+
+    router.get('/all',[isAuthenticated, hasRole(Role.USER)], portfolio.getAllForUser)
 
     app.use('/api/portfolio', router)
 }

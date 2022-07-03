@@ -54,6 +54,33 @@ exports.get = async (req, res) => {
     }
 }
 
+exports.delete = async (req, res) => {
+    try {
+        const _id  = req.params.id;
+        const portfolio = await Portfolio.findOne({_id})
+        if (!portfolio) {
+            res.status(400).json({error: 'Portfolio not found'})
+            return
+        }
+
+        await Portfolio.deleteOne({_id});
+        res.status(204).send();
+
+    } catch (error) {
+        res.status(500).json({ error:"Fail to delete this user" });
+    }
+}
+
+exports.getAllForUser = async (req, res) => {
+    try {
+        const {user} = req;
+
+        const portfolio = await Portfolio.find({}).select({ "userId": user._id, "_id": 0});
+        res.status(200).json({ portfolio: portfolio});
+    } catch (error) {
+        res.status(400).json({ error : "Cannot get portfolio with id " + _id });
+    }
+}
+
 // TODO: CHECK IF USER AUTHENTIFIED IS SAME FOR THE RESSOURCE
-// TODO: DELETE
 // TODO: ADD FAVORITE

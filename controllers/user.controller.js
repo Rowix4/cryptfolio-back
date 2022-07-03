@@ -34,7 +34,7 @@ exports.login = async (req, res) => {
 
 exports.register = async (req,res) => {
     try {
-        const {mail, password, firstname, lastname, role} = req.body;
+        const {mail, password, firstname, lastname} = req.body;
 
         const userExists = await User.findOne({ mail });
         if (userExists != null) {
@@ -45,7 +45,7 @@ exports.register = async (req,res) => {
         const encryptedPassword = await bCrypt.hash(password, 15);
 
         const user = new User({
-            mail, password : encryptedPassword, firstname, lastname, role
+            mail, password: encryptedPassword, firstname, lastname, role: Role.USER
         });
 
         await user.save()
@@ -107,4 +107,7 @@ exports.update = async (req, res) => {
     }
 }
 
-
+class Role {
+    static ADMIN = 'ROLE_ADMIN';
+    static USER = 'ROLE_USER';
+}
