@@ -16,7 +16,7 @@ exports.login = async (req, res) => {
         const user = await User.findOne({mail}).select('+password');
 
         if (!user || !(await bCrypt.compare(password, user.password))) {
-            res.status(401).json({ error: 'Wrong email or password' });
+            res.status(400).json({ error: 'Wrong email or password' });
             return
         }
 
@@ -27,7 +27,7 @@ exports.login = async (req, res) => {
         res.status(200).json({ token, user });
 
     } catch (error) {
-        res.status(400).json({ error });
+        res.status(500).json({ error: error });
     }
 
 };
@@ -52,7 +52,7 @@ exports.register = async (req,res) => {
         res.status(201).json({ message: 'User create'});
 
     } catch (error) {
-        res.status(500).json({ error: "FAIL" });
+        res.status(500).json({ error: error });
     }
 }
 
@@ -60,9 +60,8 @@ exports.profile = async (req,res) => {
     try{
         const {user} = req;
         res.status(200).json({ user });
-
     } catch (error) {
-        res.status(400).json({ error : "Cannot get profile" });
+        res.status(500).json({ error : "Cannot get profile" });
     }
 }
 
@@ -70,9 +69,8 @@ exports.getAllUser = async (req, res) => {
     try {
         const users = await User.find()
         res.status(200).json({ users: {users}});
-
     } catch (error) {
-        res.status(400).json({ error : "Cannot get users" });
+        res.status(500).json({ error : "Cannot get users" });
 
     }
 }
@@ -82,7 +80,7 @@ exports.delete = async (req, res) => {
         const _id  = req.params.id;
         const user = await User.findOne({_id})
         if (!user) {
-            res.status(400).json({error: 'User not found for delete.'})
+            res.status(400).json({error: 'User not found'})
             return
         }
 
@@ -90,7 +88,7 @@ exports.delete = async (req, res) => {
         res.status(204).send();
 
     } catch (error) {
-        res.status(400).json({ error:"Fail to delete this user" });
+        res.status(500).json({ error:"Fail to delete this user" });
     }
 }
 
@@ -105,7 +103,7 @@ exports.update = async (req, res) => {
         res.status(200).json();
 
     } catch (error) {
-        res.status(400).json({ error : "Cannot update User" });
+        res.status(500).json({ error: error });
     }
 }
 

@@ -1,13 +1,20 @@
 const db = require("../models");
 const Portfolio = db.portfolio;
+const User = db.user;
 
 exports.add = async (req,res) => {
     try {
-        const {name, userId} = req.body;
+        const {userId, name} = req.body;
 
         const portfolioExist = await Portfolio.findOne({ name });
         if (portfolioExist != null) {
             res.status(400).json({ error:"Portfolio already exist" })
+            return
+        }
+
+        const userExist = await User.findOne({ _id: userId })
+        if (userExist == null) {
+            res.status(400).json({ error:"User not found" })
             return
         }
 

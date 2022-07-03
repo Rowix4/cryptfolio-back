@@ -21,47 +21,6 @@
     }
   ],
   "paths": {
-    "/portfolio": {
-      "post": {
-        "tags": [
-          "portfolio"
-        ],
-        "summary": "Add a new portfolio",
-        "operationId": "addPortfolio",
-        "requestBody": {
-          "description": "Portfolio object that needs to be added",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Portfolio"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Portfolio"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {}
-          },
-          "401": {
-            "description": "Unauthorized, login required",
-            "content": {}
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "x-codegen-request-body-name": "body"
-      }
-    },
     "/user": {
       "put": {
         "tags": [
@@ -147,6 +106,48 @@
           }
         }
       }
+    },
+    "/portfolio": {
+      "post": {
+        "tags": [
+          "portfolio"
+        ],
+        "summary": "Add a new portfolio",
+        "operationId": "addPortfolio",
+        "requestBody": {
+          "description": "Portfolio object that needs to be added",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Portfolio"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Portfolio"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized, login required"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
     }
   },
   "components": {
@@ -180,6 +181,9 @@
         ],
         "type": "object",
         "properties": {
+          "userId": {
+            "type": "number"
+          },
           "name": {
             "type": "string"
           }
