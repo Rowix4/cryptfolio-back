@@ -4,7 +4,7 @@
   "description": "backend",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "generate-key": "openssl rand -base64 1024 > key.JWT"
   },
   "author": "Léo GIGANT",
@@ -16,8 +16,11 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^10.0.0",
     "mongoose": "^5.10.12",
     "mongoose-float": "^1.0.4",
+    "should": "^13.2.3",
+    "supertest": "^6.2.4",
     "swagger-ui-express": "^4.4.0"
   }
 }
