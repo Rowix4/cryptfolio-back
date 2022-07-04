@@ -9,7 +9,7 @@ module.exports = app => {
     
     router.put('/:id', [isAuthenticated, hasRole(Role.USER)], cryptoAsset.update)
 
-    router.get('/:id',[isAuthenticated, hasRole(Role.ADMIN)], cryptoAsset.get)
+    router.get('/:id',[isAuthenticated, hasRole(Role.USER)], cryptoAsset.get)
 
     app.use('/api/cryptoAsset', router)
 }
