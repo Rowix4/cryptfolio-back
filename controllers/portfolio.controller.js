@@ -89,8 +89,8 @@ exports.getAllForUser = async (req, res) => {
     try {
         const {user} = req;
 
-        const portfolio = await Portfolio.find({}).select({ "userId": user._id, "_id": 0});
-        res.status(200).json({ portfolio: portfolio});
+        const portfolios = await Portfolio.find({}).select({ "userId": user._id });
+        res.status(200).json({ portfolio: portfolios});
     } catch (error) {
         res.status(400).json({ error : "Cannot get user portfolios"});
     }

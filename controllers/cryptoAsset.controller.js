@@ -7,7 +7,7 @@ exports.add = async (req,res) => {
         const {identifier, name, buyDate, buyPrice, buyValue, portfolioId} = req.body;
         const {user} = req;
 
-        const portfolio = await Portfolio.findOne({ _id: asset.portfolioId });
+        const portfolio = await Portfolio.findOne({ _id: portfolioId });
 
         if (user._id != portfolio.userId) {
             res.status(401).json({ error : "Unauthorized"});
