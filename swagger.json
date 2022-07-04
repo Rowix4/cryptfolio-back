@@ -344,12 +344,12 @@
     "/cryptoAsset": {
       "post": {
         "tags": [
-          "cryptoAsset"
+          "CryptoAsset"
         ],
         "summary": "Add a new crypto asset",
         "operationId": "addcryptoAsset",
         "requestBody": {
-          "description": "crypto asset object that needs to be added",
+          "description": "Crypto asset object that needs to be added",
           "content": {
             "application/json": {
               "schema": {
@@ -386,7 +386,7 @@
     "/cryptoAsset/{id}": {
       "get": {
         "tags": [
-          "cryptoAsset"
+          "CryptoAsset"
         ],
         "summary": "Get a crypto asset by id",
         "operationId": "getCryptoAssetyId",
@@ -428,7 +428,7 @@
       },
       "put": {
         "tags": [
-          "CryptoAsset "
+          "CryptoAsset"
         ],
         "summary": "Update a crypto asset  by id",
         "operationId": "putCryptoAsset ById",
