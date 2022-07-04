@@ -201,7 +201,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized, login required"
+            "description": "Unauthorized, login required or ressource canno't be reached"
           },
           "400": {
             "description": "Bad request"
@@ -259,7 +259,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized, login required"
+            "description": "Unauthorized, login required or ressource canno't be reached"
           },
           "400": {
             "description": "Bad request"
@@ -294,7 +294,7 @@
             "description": "Success"
           },
           "401": {
-            "description": "Unauthorized, login required"
+            "description": "Unauthorized, login required or ressource canno't be reached"
           },
           "400": {
             "description": "Bad request"
@@ -328,6 +328,150 @@
           },
           "401": {
             "description": "Unauthorized, login required"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/cryptoAsset": {
+      "post": {
+        "tags": [
+          "cryptoAsset"
+        ],
+        "summary": "Add a new crypto asset",
+        "operationId": "addcryptoAsset",
+        "requestBody": {
+          "description": "crypto asset object that needs to be added",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CryptoAsset"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/CryptoAsset"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized, login required"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/cryptoAsset/{id}": {
+      "get": {
+        "tags": [
+          "cryptoAsset"
+        ],
+        "summary": "Get a crypto asset by id",
+        "operationId": "getCryptoAssetyId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Crypto asset id",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CryptoAsset "
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, login required or ressource canno't be reached"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "put": {
+        "tags": [
+          "CryptoAsset "
+        ],
+        "summary": "Update a crypto asset  by id",
+        "operationId": "putCryptoAsset ById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Crypto asset id",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Crypto asset object that needs to be added",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CryptoAsset "
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/CryptoAsset "
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CryptoAsset "
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, login required or ressource canno't be reached"
           },
           "400": {
             "description": "Bad request"
@@ -374,6 +518,36 @@
         "type": "object",
         "properties": {
           "name": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Portfolio"
+        }
+      },
+      "CryptoAsset": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "buyDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "buyPrice": {
+            "type": "number"
+          },
+          "buyValue": {
+            "type": "number"
+          },
+          "portfolioId": {
             "type": "string"
           }
         },
