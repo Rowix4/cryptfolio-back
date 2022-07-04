@@ -185,7 +185,7 @@
             "description": "Portfolio id",
             "required": true,
             "schema": {
-              "type": "number"
+              "type": "string"
             }
           }
         ],
@@ -227,7 +227,7 @@
             "description": "Portfolio id",
             "required": true,
             "schema": {
-              "type": "number"
+              "type": "string"
             }
           }
         ],
@@ -285,7 +285,7 @@
             "description": "Portfolio id",
             "required": true,
             "schema": {
-              "type": "number"
+              "type": "string"
             }
           }
         ],
