@@ -13,8 +13,10 @@ exports.add = async (req,res) => {
             res.status(401).json({ error : "Unauthorized"});
         }
 
+        const buyDateFormatted = new Date(buyDate)
+
         const asset = new CryptoAsset({
-            identifier, name, buyDate, buyPrice, buyValue, portfolioId
+            identifier, name, buyDate: buyDateFormatted, buyPrice, buyValue, portfolioId
         });
 
         await asset.save()
