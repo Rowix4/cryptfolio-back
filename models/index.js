@@ -9,5 +9,7 @@ db.mongoose = mongoose;
 db.url = databaseConfig.url;
 
 db.user = require("./user")(mongoose);
+db.portfolio = require("./portfolio")(mongoose);
+db.cryptoAsset = require("./cryptoAsset")(mongoose);
 
 module.exports = db;

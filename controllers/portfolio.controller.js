@@ -1,6 +1,5 @@
 const db = require("../models");
 const Portfolio = db.portfolio;
-const User = db.user;
 
 exports.add = async (req,res) => {
     try {
