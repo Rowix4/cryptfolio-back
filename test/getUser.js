@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 
 app.get("/api/user", function(req, res){
-    res.status(200).json({mail: 'test@test.com'})
+    res.status(200).json({mail: 'test@test.com', password:'test'})
 })
 
 describe('Get /user', function(){
